@@ -23,31 +23,34 @@ void loop()
   char message[5];
   if(Serial.available()){
     wheel = Serial.read();
-    direction = Serial.read();
-    Serial.readBytesUntil('|', message, 5);
+    Serial.readBytesUntil('|', message, 6);
+    Serial.println(message);
     int speed = atoi(message);
+    Serial.println(speed);
     if(wheel == 'R' || wheel == 'L'){
-      set_motor_speed(wheel, direction, speed);
+      set_motor_speed(wheel, speed);
     }
     Serial.println("looped");
   }
 }
 
-void set_motor_speed(char wheel, char direction, int speed){
-  Serial.println("set_motor_speed");
+void set_motor_speed(char wheel, int speed){
   int dir_int;
-  if(direction == '+'){
+  int dir;
+  if(speed >= 0){
     dir_int = 1;
+    dir = MOTOR_ANTICLOCKWISE;
   }
-  if(direction == '-'){
+  if(speed < 0){
     dir_int = -1;
+    dir = MOTOR_CLOCKWISE;
   }
   if(wheel == 'R'){
-    motordriver.setSpeed(speed, MOTORA);
-    motordriver.rotateWithID(dir_int, MOTORA);
+    motordriver.setSpeed(dir_int * speed, MOTORA);
+    motordriver.rotateWithID(dir, MOTORA);
   }
   if(wheel == 'L'){
-    motordriver.setSpeed(speed, MOTORB);
-    motordriver.rotateWithID(dir_int, MOTORB);
+    motordriver.setSpeed(dir_int * speed, MOTORB);
+    motordriver.rotateWithID(dir, MOTORB);
   }
 }
