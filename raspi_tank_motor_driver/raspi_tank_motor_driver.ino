@@ -18,6 +18,7 @@ void setup()
 void loop()
 {
   int bytesRead = 0;
+  char direction;
   char wheel;
   char message[5];
   if(Serial.available()){
