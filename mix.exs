@@ -4,7 +4,6 @@ defmodule ArduinoMotorDriver.Mixfile do
   def project do
     [app: :arduino_motor_driver,
      version: "0.0.1",
-     elixir: "~> 0.14.3",
      deps: deps]
   end
 
